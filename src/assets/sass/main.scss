@@ -1,0 +1,68 @@
+// Utilities
+$utilities: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$utilities: map-merge(
+  (
+    "width": (
+      property: width,
+      class: w,
+      values: (
+        10: 10%,
+        15: 15%
+      ),
+    ),
+    "border-width": (
+      property: border-width,
+      class: border-w,
+      values: (
+        0: 0,
+        1: .05rem,
+        2: .10rem,
+        3: .15rem,
+        4: .30rem,
+        5: .80rem,
+        auto: auto
+      )
+    ),
+    "input-padding": (
+      property: padding,
+      class: ip,
+      values: (
+        1: 10px,
+        2: 11px,
+        3: 12px,
+        4: 13px,
+        5: 14px,
+      )
+    ),
+  ),
+  $utilities
+);
+
+// Modified Bootstrap Variables
+// $secondary: #ababab;
+$body-bg: #edf2f5;
+$body-color: #737373;
+$dark: #5e5e5e;
+
+
+
+@import "bootstrap";
+@import url("https://fonts.googleapis.com/css?family=ABeeZee|Bitter|Bree+Serif|Nunito&display=swap");
+
+body,
+html {
+  font-family: "ABeeZee", sans-serif;
+//   overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+h1,h2,h3,h4,h5 {
+  font-family: "Bitter";
+}
+
+.text-sm {
+  font-size: 13px;
+}
+.text-smd {
+  font-size: 14px;
+}
