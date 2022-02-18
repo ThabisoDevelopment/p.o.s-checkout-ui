@@ -4,7 +4,7 @@
             <div class="col-12 col-md-7 col-xl-6">
                 <div class="card shadow border-0 mb-4">
                     <div class="card-header py-1 border-0 bg-secondary">
-                        <h1 class="my-auto h5 py-2 text-light text-center">Welcome to TASK</h1>
+                        <h1 class="my-auto h5 py-2 text-light text-center">Welcome to P.O.S</h1>
                     </div>
                     <div class="card-body">
                         <form action="#" method="post" @submit.prevent="login">
@@ -79,8 +79,8 @@ export default {
             try {
                 const { data } = await axios.post("/oauth/login", userData)
                 localStorage.setItem('username', data.user.name)
-                localStorage.setItem('user_img', data.user.img)
                 localStorage.setItem('token', data.token)
+                // if !data.user.email_verified show notificatio
                 window.location.href = "/"
             } catch (error) {
                 user.password = ''

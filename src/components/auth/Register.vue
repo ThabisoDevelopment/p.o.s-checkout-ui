@@ -69,6 +69,7 @@
 <script>
 import { reactive } from 'vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
 export default {
     name: "Register",
     setup() {
@@ -81,6 +82,7 @@ export default {
             loading: false
         })
 
+        const router = useRouter()
         // send new user data to register
         const register = async() => {
             if (!user.name || !user.email || !user.password) return user.error = 'All Field are Required'
@@ -92,13 +94,10 @@ export default {
                 password: user.password
             }
             try {
-                const registerUser = await axios.post("/oauth/register", newUser)
-                console.log(registerUser.data.message)
-                const { data } = await axios.post("/oauth/login", { email: newUser.email, password: newUser.password })
-                localStorage.setItem('username', data.user.name)
-                localStorage.setItem('user_img', data.user.img)
-                localStorage.setItem('token', data.token)
-                window.location.href = "/"
+                const { data } = await axios.post("/oauth/register", newUser)
+                console.log(data)
+                // notify for data.message for new user
+                router.push({ name: 'Login' })
             } catch (error) {
                 user.password = ''
                 user.loading = false
