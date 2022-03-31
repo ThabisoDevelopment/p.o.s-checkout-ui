@@ -12,32 +12,38 @@ const routes = [
   {
     path: '/checkout',
     name: 'Checkout',
-	meta: { auth: true },
+    meta: { auth: true },
     component: () => import(/* webpackChunkName: "home" */ '@/components/checkout/Checkout.vue')
   },
   {
     path: '/login',
     name: 'Login',
-	meta: { auth: false },
+    meta: { auth: false },
     component: () => import(/* webpackChunkName: "login" */ '@/components/auth/Login.vue')
   },
   {
     path: '/register',
     name: 'Register',
-	meta: { auth: false },
+    meta: { auth: false },
     component: () => import(/* webpackChunkName: "register" */ '@/components/auth/Register.vue')
   },
   {
     path: '/forgot/password',
     name: 'ForgotPassword',
-	meta: { auth: false },
+    meta: { auth: false },
     component: () => import(/* webpackChunkName: "forgortpass" */ '@/components/auth/ForgotPassword.vue')
   },
   {
     path: '/reset/password',
     name: 'ResetPassword',
-	meta: { auth: false },
+    meta: { auth: false },
     component: () => import(/* webpackChunkName: "resetpass" */ '@/components/auth/ResetPassword.vue')
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    meta: { auth: true },
+    component: () => import(/* webpackChunkName: "admin" */ '@/components/home/index.vue')
   }
 ]
 

@@ -1,18 +1,13 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
         <div class="container">
-            <router-link class="navbar-brand" :to="{ name: 'Home' }">
-                <span class="fw-bold h3 text-dark">CHECKOUT</span>
+            <router-link class="navbar-brand" :to="{ name: 'Admin' }">
+                <span class="fw-bold h3 text-dark">P.O.S SYSTEM</span>
                 <small class="text-sm px-1">by anestordev</small>
             </router-link>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item mx-3">
-                    <router-link to="#" class="nav-link mx-2" role="button" data-bs-toggle="modal" data-bs-target="#addByBarcodeModal">
-                        <span class="fa fa-plus"></span>
-                        By Barcode
-                    </router-link>
-                </li>
+                
                 <li class="nav-item dropdown">
                     <router-link to="#" class="nav-link dropdown-toggle" id="navbarDropdownMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="fa fa-user"></span>
@@ -20,11 +15,17 @@
                     </router-link>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
                         <li>
-                            <router-link class="dropdown-item py-2" :to="{ name: 'Home' }">Exit Checkout</router-link>
+                            <router-link class="dropdown-item py-2" :to="{ name: 'Home' }">Exit Admin</router-link>
                         </li>
                         <li>
-                            <button class="dropdown-item" @click="logout">
-                                <span class="fa fa-sign-out-alt"></span>
+                            <router-link class="dropdown-item py-2" :to="{ name: 'Home' }">
+                                <span class="fa fa-user pe-2"></span>
+                                Profile
+                            </router-link>
+                        </li>
+                        <li>
+                            <button class="dropdown-item py-2" @click="logout">
+                                <span class="fa fa-sign-out-alt pe-2"></span>
                                 logout
                             </button>
                         </li>
