@@ -19,7 +19,7 @@
                         <span class="fa fa-user"></span>
                         {{ username }}
                     </router-link>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenu">
                         <li>
                             <router-link class="dropdown-item py-2" :to="{ name: 'Home' }">Exit Admin</router-link>
                         </li>
