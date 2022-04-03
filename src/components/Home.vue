@@ -28,7 +28,7 @@
     <div class="container mb-5">
         <div class="row">
             <div class="col-12">
-                <p class="text-center mt-3 mb-4 h1">Hello {{ user.name }}, Welcome Back!</p>
+                <p class="text-center mt-3 mb-4 display-6">Hello {{ user.name }}, Welcome Back!</p>
                 <!-- <p class="text-center">Hello Motherfucker. Hey, Hi How you do'ern?</p> -->
             </div>
         </div>

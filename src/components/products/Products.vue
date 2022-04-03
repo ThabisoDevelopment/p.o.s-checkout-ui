@@ -9,7 +9,7 @@
 
             <!-- Every thing else goes hear  -->
             <div class="col">
-                <p class="">Lorem ipsum doloret. Repudiandae, aut.</p>
+                <p class="">welcome to products</p>
             </div>
         </div>
     </div>

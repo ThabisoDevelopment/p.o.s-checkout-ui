@@ -13,37 +13,67 @@ const routes = [
     path: '/checkout',
     name: 'Checkout',
     meta: { auth: true },
-    component: () => import(/* webpackChunkName: "home" */ '@/components/checkout/Checkout.vue')
+    component: () => import('@/components/checkout/Checkout.vue')
   },
   {
     path: '/login',
     name: 'Login',
     meta: { auth: false },
-    component: () => import(/* webpackChunkName: "login" */ '@/components/auth/Login.vue')
+    component: () => import('@/components/auth/Login.vue')
   },
   {
     path: '/register',
     name: 'Register',
     meta: { auth: false },
-    component: () => import(/* webpackChunkName: "register" */ '@/components/auth/Register.vue')
+    component: () => import('@/components/auth/Register.vue')
   },
   {
     path: '/forgot/password',
     name: 'ForgotPassword',
     meta: { auth: false },
-    component: () => import(/* webpackChunkName: "forgortpass" */ '@/components/auth/ForgotPassword.vue')
+    component: () => import('@/components/auth/ForgotPassword.vue')
   },
   {
     path: '/reset/password',
     name: 'ResetPassword',
     meta: { auth: false },
-    component: () => import(/* webpackChunkName: "resetpass" */ '@/components/auth/ResetPassword.vue')
+    component: () => import('@/components/auth/ResetPassword.vue')
   },
   {
     path: '/admin',
     name: 'Admin',
     meta: { auth: true },
-    component: () => import(/* webpackChunkName: "admin" */ '@/components/home/index.vue')
+    component: () => import('@/components/home/index.vue')
+  },
+  {
+    path: '/admin/orders',
+    name: 'Orders',
+    meta: { auth: true },
+    component: () => import('@/components/orders/Orders.vue')
+  },
+  {
+    path: '/admin/reports',
+    name: 'Reports',
+    meta: { auth: true },
+    component: () => import('@/components/reports/Reports.vue')
+  },
+  {
+    path: '/admin/products',
+    name: 'Products',
+    meta: { auth: true },
+    component: () => import('@/components/products/Products.vue')
+  },
+  {
+    path: '/admin/promotions',
+    name: 'Promotions',
+    meta: { auth: true },
+    component: () => import('@/components/promotions/Promotions.vue')
+  },
+  {
+    path: '/admin/users',
+    name: 'Users',
+    meta: { auth: true },
+    component: () => import('@/components/users/Users.vue')
   }
 ]
 
