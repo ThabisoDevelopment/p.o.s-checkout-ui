@@ -8,7 +8,7 @@
             <side-menu-bar />
 
             <!-- Every thing else goes hear  -->
-            <div class="col py-3">
+            <div class="col py-2">
                 <ul class="nav mb-2">
                     <li class="nav-item">
                         <router-link class="nav-link d-flex text-dark fw-bold px-0" :to="{ name: 'Users' }">
