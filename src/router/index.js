@@ -58,10 +58,40 @@ const routes = [
     component: () => import('@/components/reports/Reports.vue')
   },
   {
+    path: '/admin/reports/sales',
+    name: 'Sales',
+    meta: { auth: true },
+    component: () => import('@/components/reports/Sales.vue')
+  },
+  {
+    path: '/admin/reports/sales/:id',
+    name: 'ShowSale',
+    meta: { auth: true },
+    component: () => import('@/components/reports/ShowSale.vue')
+  },
+  {
     path: '/admin/products',
     name: 'Products',
     meta: { auth: true },
     component: () => import('@/components/products/Products.vue')
+  },
+  {
+    path: '/admin/products/:id',
+    name: 'ShowProduct',
+    meta: { auth: true },
+    component: () => import('@/components/products/Show.vue')
+  },
+  {
+    path: '/admin/products/create',
+    name: 'CreateProduct',
+    meta: { auth: true },
+    component: () => import('@/components/products/Create.vue')
+  },
+  {
+    path: '/admin/products/count',
+    name: 'CountProducts',
+    meta: { auth: true },
+    component: () => import('@/components/products/Count.vue')
   },
   {
     path: '/admin/promotions',
