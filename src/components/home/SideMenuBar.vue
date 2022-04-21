@@ -1,5 +1,5 @@
 <template>
-    <div class="col-3 col-lg-2 shadow-sm bg-light vh-100">
+    <div class="col-3 col-lg-2 shadow bg-light vh-100 sticky-top border-top border-w-3">
         <div class="d-flex p-3 mb-2">
             <p class="my-0 p-0 h3 fw-bold text">
                 <span class="fa fa-list"></span>
