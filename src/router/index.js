@@ -104,6 +104,12 @@ const routes = [
     name: 'Users',
     meta: { auth: true },
     component: () => import('@/components/users/Users.vue')
+  },
+  {
+    path: '/admin/users/:id',
+    name: 'UserSettings',
+    meta: { auth: true },
+    component: () => import('@/components/users/Settings.vue')
   }
 ]
 
