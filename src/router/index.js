@@ -70,6 +70,12 @@ const routes = [
     component: () => import('@/components/reports/ShowSale.vue')
   },
   {
+    path: '/admin/reports/stock',
+    name: 'StockCount',
+    meta: { auth: true },
+    component: () => import('@/components/reports/StockCount.vue')
+  },
+  {
     path: '/admin/products',
     name: 'Products',
     meta: { auth: true },
@@ -86,12 +92,6 @@ const routes = [
     name: 'CreateProduct',
     meta: { auth: true },
     component: () => import('@/components/products/Create.vue')
-  },
-  {
-    path: '/admin/products/count',
-    name: 'CountProducts',
-    meta: { auth: true },
-    component: () => import('@/components/products/Count.vue')
   },
   {
     path: '/admin/promotions',

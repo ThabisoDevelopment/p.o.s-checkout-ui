@@ -19,6 +19,12 @@
                             Sales
                         </router-link>
                     </li>
+                    <li class="nav-item my-auto">
+                        <router-link class="nav-link text-warning" :to="{ name: 'StockCount' }">
+                            <span class="fa fa-file"></span>
+                            Stock Count
+                        </router-link>
+                    </li>
                 </ul>
             </div>
         </div>
