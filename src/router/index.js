@@ -16,25 +16,25 @@ const routes = [
     component: () => import('@/components/checkout/Checkout.vue')
   },
   {
-    path: '/login',
+    path: '/oauth/login',
     name: 'Login',
     meta: { auth: false },
     component: () => import('@/components/auth/Login.vue')
   },
   {
-    path: '/register',
+    path: '/oauth/register',
     name: 'Register',
     meta: { auth: false },
     component: () => import('@/components/auth/Register.vue')
   },
   {
-    path: '/forgot/password',
+    path: '/oauth/forgot',
     name: 'ForgotPassword',
     meta: { auth: false },
     component: () => import('@/components/auth/ForgotPassword.vue')
   },
   {
-    path: '/reset/password',
+    path: '/oauth/reset',
     name: 'ResetPassword',
     meta: { auth: false },
     component: () => import('@/components/auth/ResetPassword.vue')

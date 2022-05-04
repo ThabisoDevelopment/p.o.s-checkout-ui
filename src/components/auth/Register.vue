@@ -4,11 +4,11 @@
             <div class="col-12 col-md-7 col-xl-6">
                 <div class="card shadow border-0 mb-4">
                     <div class="card-header py-1 border-0 bg-secondary">
-                        <h1 class="my-auto h5 py-2 text-light">Create a new account</h1>
+                        <h1 class="my-auto h4 py-2 text-light">Create a new account</h1>
                     </div>
                     <div class="card-body">
                         <form action="#" method="post" @submit.prevent="register">
-                            <div class="mb-4">
+                            <div class="my-4">
                                 <label for="name" class="form-label">Name</label>
                                 <div class="input-group">
                                     <span class="input-group-text border-0" id="name-addon">
@@ -35,13 +35,13 @@
                                     <input type="password" id="password" class="form-control ip-1 bg-light border-0" v-model="user.password" placeholder="eg: johnDoe11">
                                 </div>
                             </div>
-                            <div class="row justify-content-center">
+                            <div class="row justify-content-center mb-2">
                                 <div class="col-6 col-md-4">
                                     <div class="d-grid gap-2">
-                                        <button class="btn btn-sm btn-primary" type="submit">
+                                        <button class="btn btn-sm btn-primary" type="submit" :disabled="user.loading">
                                             Create Account
-                                            <span v-if="!user.loading" class="fa fa-paper-plane"></span>
-                                            <span v-if="user.loading" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                            <span v-if="!user.loading" class="fa fa-paper-plane ps-2"></span>
+                                            <span v-if="user.loading" class="spinner-grow spinner-grow-sm ps-2" role="status" aria-hidden="true"></span>
                                         </button>
                                     </div>
                                 </div>
@@ -70,6 +70,7 @@
 import { reactive } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { notify } from '@kyvg/vue3-notification'
 export default {
     name: "Register",
     setup() {
@@ -85,23 +86,32 @@ export default {
         const router = useRouter()
         // send new user data to register
         const register = async() => {
-            if (!user.name || !user.email || !user.password) return user.error = 'All Field are Required'
-            user.error = ''
-            user.loading = true
-            const newUser = {
-                name: user.name,
-                email: user.email,
-                password: user.password
-            }
             try {
+                if (!user.name || !user.email || !user.password) throw 'All Field are Required'
+                user.error = ''
+                user.loading = true
+                const newUser = {
+                    name: user.name,
+                    email: user.email,
+                    password: user.password
+                }
                 const { data } = await axios.post("/oauth/register", newUser)
-                console.log(data)
-                // notify for data.message for new user
+                notify({
+                    title: 'Account Created Successful',
+                    type: 'success',
+                    text: data.message
+                })
                 router.push({ name: 'Login' })
             } catch (error) {
                 user.password = ''
                 user.loading = false
-                user.error = error.response? error.response.data.message :error.message
+                const errorMessage = error.response? error.response.data :error
+                user.error = errorMessage
+                notify({
+                    title: 'Create User Error',
+                    type: 'error',
+                    text: errorMessage
+                })
             }
         }
 

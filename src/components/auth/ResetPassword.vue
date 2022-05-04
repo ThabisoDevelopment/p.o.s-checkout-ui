@@ -4,11 +4,11 @@
             <div class="col-12 col-md-7 col-xl-6">
                 <div class="card shadow border-0 mb-4">
                     <div class="card-header py-1 border-0 bg-secondary">
-                        <p class="my-auto py-1 text-light">Change Password</p>
+                        <p class="my-auto py-1 h4 text-light">Reset Password</p>
                     </div>
                     <div class="card-body">
                         <form action="#" method="post" @submit.prevent="passwordReset">
-                            <div class="mb-4">
+                            <div class="my-4">
                                 <label for="password" class="form-label">Enter your new Password</label>
                                 <div class="input-group">
                                     <span class="input-group-text border-0" id="password-addon">
@@ -17,13 +17,13 @@
                                     <input type="text" id="password" class="form-control ip-1 bg-light border-0" v-model="user.password">
                                 </div>
                             </div>
-                            <div class="row justify-content-center">
+                            <div class="row justify-content-center mb-3">
                                 <div class="col-7 col-md-5">
                                     <div class="d-grid gap-2">
-                                        <button class="btn btn-sm btn-primary" type="submit">
+                                        <button class="btn btn-sm btn-primary" type="submit" :disabled="user.loading">
                                             Change Password
-                                            <span v-if="!user.loading" class="fa fa-paper-plane"></span>
-                                            <span v-if="user.loading" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                            <span v-if="!user.loading" class="fa fa-paper-plane ps-2"></span>
+                                            <span v-if="user.loading" class="spinner-grow spinner-grow-sm ps-2" role="status" aria-hidden="true"></span>
                                         </button>
                                     </div>
                                 </div>
@@ -47,11 +47,11 @@
     </div>
 </template>
 <script>
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import { notify } from '@kyvg/vue3-notification'
 export default {
-    name: "PasswordReset",
     setup() {
         // Input user information
         const user = reactive({
@@ -62,26 +62,48 @@ export default {
 
         const router = useRouter()
         const route = useRoute()
-        const token = route.params.token
+        const token = route.query.token
+
+        onMounted(() => {
+            if (!route.query.token) {
+                notify({
+                    title: 'User Password Reset Error',
+                    type: 'error',
+                    text: 'sorrry you dont have access to reset password open your mail inbox for intruction'
+                })
+                router.push({ name: 'Login' })
+            }
+        })
 
         // reset
         const passwordReset = async() => {
-            user.error = ''
-            user.loading = true
-            const userPassword = { password: user.password }
             try {
-                const { data } = await axios.put("/oauth/password/reset", userPassword, {
+                if (!user.password) throw 'Please enter your new paswword'
+                user.error = ''
+                user.loading = true
+                const userPassword = { password: user.password }
+                const { data } = await axios.put("/oauth/reset", userPassword, {
                     headers: {
                         'Authorization': token
                     }
                 })
                 user.loading = false
                 user.password = ''
-                console.log(data.message)
+                notify({
+                    title: 'User Password Reset Success',
+                    type: 'success',
+                    text: data.message
+                })
                 router.push({ name: 'Login' })
             } catch (error) {
                 user.loading = false
-                user.error = error.response? error.response.data.message :error.message
+                const errorMessage = error.response? error.response.data :error
+                user.error = errorMessage
+                notify({
+                    title: 'User Password Reset Error',
+                    type: 'error',
+                    text: errorMessage
+                })
             }
         }
 

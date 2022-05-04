@@ -4,11 +4,11 @@
             <div class="col-12 col-md-7 col-xl-6">
                 <div class="card shadow border-0 mb-4">
                     <div class="card-header py-1 border-0 bg-secondary">
-                        <h1 class="my-auto h5 py-2 text-light text-center">Welcome to P.O.S</h1>
+                        <h1 class="my-auto h4 py-2 text-light text-center">Welcome to P.O.S</h1>
                     </div>
                     <div class="card-body">
                         <form action="#" method="post" @submit.prevent="login">
-                            <div class="mb-4">
+                            <div class="my-4">
                                 <label for="email" class="form-label">Email</label>
                                 <div class="input-group">
                                     <span class="input-group-text border-0" id="email-addon">
@@ -29,13 +29,13 @@
                             <div class="mb-4">
                                 <router-link :to="{ name: 'ForgotPassword' }" class="text-decoration-none">Forgot password?</router-link>
                             </div>
-                            <div class="row justify-content-center">
+                            <div class="row justify-content-center mb-2">
                                 <div class="col-6 col-md-4">
                                     <div class="d-grid gap-2">
-                                        <button class="btn btn-sm btn-success" type="submit">
+                                        <button class="btn btn-sm btn-success" type="submit" :disabled="user.loading">
                                             Login
-                                            <span v-if="!user.loading" class="fa fa-paper-plane"></span>
-                                            <span v-if="user.loading" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                            <span v-if="!user.loading" class="fa fa-paper-plane ps-2"></span>
+                                            <span v-if="user.loading" class="spinner-grow spinner-grow-sm ps-2" role="status" aria-hidden="true"></span>
                                         </button>
                                     </div>
                                 </div>
@@ -59,6 +59,7 @@
 <script>
 import axios from 'axios'
 import { reactive } from '@vue/reactivity'
+import { notify } from '@kyvg/vue3-notification'
 export default {
     name: "Login",
     setup() {
@@ -72,11 +73,11 @@ export default {
 
         // send login data to authenticate
         const login = async() => {
-            if (!user.email || !user.password) return user.error = 'Email and Password Is Required'
-            user.error = ''
-            user.loading = true
-            const userData = { email: user.email, password: user.password }
             try {
+                if (!user.email || !user.password) throw 'Email and Password Is Required'
+                user.error = ''
+                user.loading = true
+                const userData = { email: user.email, password: user.password }
                 const { data } = await axios.post("/oauth/login", userData)
                 localStorage.setItem('username', data.user.name)
                 localStorage.setItem('token', data.token)
@@ -85,7 +86,13 @@ export default {
             } catch (error) {
                 user.password = ''
                 user.loading = false
-                user.error = error.response? error.response.data.message :error.message
+                const errorMessage = error.response? error.response.data :error
+                user.error = errorMessage
+                notify({
+                    title: 'Error Getting user',
+                    type: 'error',
+                    text: errorMessage
+                })
             }
         }
 
