@@ -21,7 +21,7 @@
                     </li>
                 </ul>
 
-                <div class="row px-3">
+                <div class="row px-3" v-if="!user.loading">
                     <div class="col-md-6">
                         <div class="card border-0">
                             <div class="card-header bg-navtaps text-light fw-bold">User Information</div>
@@ -78,6 +78,9 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- loading bar -->
+                <Loading v-if="user.loading" />
             </div>
         </div>
     </div>
@@ -85,13 +88,14 @@
 <script>
 import NavigationBar from "@/components/home/NavigationBar.vue"
 import SideMenuBar from "@/components/home/SideMenuBar.vue"
+import Loading from "@/components/Loading.vue"
 import { reactive } from '@vue/reactivity'
 import { useRoute } from 'vue-router'
 import { onMounted } from '@vue/runtime-core'
 import axios from 'axios'
 import { notify } from '@kyvg/vue3-notification'
 export default {
-    components: { NavigationBar, SideMenuBar },
+    components: { NavigationBar, SideMenuBar, Loading },
     setup() {
         const user = reactive({
             loading: true,
@@ -121,10 +125,11 @@ export default {
                 user.loading = false
             } catch (error) {
                 user.loading = false
+                const errorMessage = error.response? error.response.data :error
                 notify({
                     title: 'Error Getting user',
                     type: 'error',
-                    text: error
+                    text: errorMessage
                 })
             }
         })
@@ -149,10 +154,11 @@ export default {
                 })
             } catch (error) {
                 user.btn = false
+                const errorMessage = error.response? error.response.data :error
                 notify({
                     title: 'Error Updating User',
                     type: 'error',
-                    text: error
+                    text: errorMessage
                 })
             }
         }

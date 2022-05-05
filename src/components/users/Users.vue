@@ -7,6 +7,8 @@
             <!-- Setup Side menu bar for nav -->
             <side-menu-bar />
 
+            
+
             <!-- Every thing else goes hear  -->
             <div class="col p-0">
                 <ul class="nav mb-3 sticky-top bg-navtaps shadow p-2 rounded-bottom">
@@ -26,7 +28,7 @@
                 </ul>
 
                 <!-- Loop through all users data to show users in list order -->
-                <div class="row px-3">
+                <div class="row px-3" v-if="!users.loading">
                     <div class="col-12" v-for="user in users.data" :key="user.id">
                         <router-link class="card border-0 mb-3 text-decoration-none text-dark" :to="{name: 'UserSettings', params: {id: user.id}}">
                             <div class="card-body">
@@ -45,6 +47,8 @@
                         </router-link>
                     </div>
                 </div>
+                <!-- loading bar -->
+                <loading v-if="users.loading"/>
             </div>
 
         </div>
@@ -53,11 +57,12 @@
 <script>
 import NavigationBar from "@/components/home/NavigationBar.vue"
 import SideMenuBar from "@/components/home/SideMenuBar.vue"
+import Loading from "@/components/Loading.vue"
 import { onMounted, reactive } from '@vue/runtime-core'
 import axios from 'axios'
 import { notify } from '@kyvg/vue3-notification'
 export default {
-    components: { NavigationBar, SideMenuBar },
+    components: { NavigationBar, SideMenuBar, Loading },
     setup() {
 
         const users = reactive({
@@ -76,9 +81,10 @@ export default {
                 users.loading = false
             } catch (error) {
                 users.loading = false
+                const errorMessage = error.response? error.response.data :error
                 notify({
                     title: "Internal Server Error",
-                    text: error.message,
+                    text: errorMessage,
                     type: "error"
                 })
             }
@@ -93,13 +99,13 @@ export default {
                     const { data } = await axios.get(`/admin/users?search=${users.search}`)
                     users.data = []
                     data.forEach(user => users.data.push(user))
-                    console.log(data)
                     users.loading = false
                 } catch (error) {
                     users.loading = false
+                    const errorMessage = error.response? error.response.data :error
                     notify({
                         title: "Internal Server Error",
-                        text: error,
+                        text: errorMessage,
                         type: "error"
                     })
                 }

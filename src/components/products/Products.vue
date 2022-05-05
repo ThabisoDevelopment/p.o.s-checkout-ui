@@ -31,18 +31,18 @@
                     </li>
                 </ul>
 
-                <div class="row px-3 py-2 border-bottom border-w-3">
-                    <div class="col-1 px-3 fw-bold">#</div>
+                <div class="row px-3 py-2 border-bottom border-w-3" v-if="!products.loading">
+                    <div class="col-1 ps-4 pe-1 fw-bold">#</div>
                     <div class="col-3 px-3 fw-bold">Name</div>
                     <div class="col-3 px-3 fw-bold">Type</div>
                     <div class="col-3 px-3 fw-bold">Unit Price</div>
                     <div class="col-2 px-3 fw-bold">In Stock</div>
                 </div>
 
-                <div class="row px-3">
+                <div class="row px-3" v-if="!products.loading">
                     <div class="col-12" v-for="product in products.data" :key="product.id">
                         <router-link :to="{ name: 'ShowProduct', params: { id: product.id }}" class="row border-bottom text-decoration-none text-dark">
-                            <div class="col-1 px-3 py-3">{{ product.id }}</div>
+                            <div class="col-1 ps-4 pe-1 py-3">{{ product.id }}</div>
                             <div class="col-3 px-3 py-3">{{ product.name }}</div>
                             <div class="col-3 px-3 py-3">{{ product.type }}</div>
                             <div class="col-3 px-3 py-3">R{{ product.unit_price }}</div>
@@ -52,6 +52,8 @@
                     </div>
                 </div>
 
+                <!-- loading componenet bar -->
+                <Loading v-if="products.loading" />
             </div>
         </div>
     </div>
@@ -59,12 +61,13 @@
 <script>
 import NavigationBar from "@/components/home/NavigationBar.vue"
 import SideMenuBar from "@/components/home/SideMenuBar.vue"
+import Loading from "@/components/Loading.vue"
 import axios from 'axios'
 import { reactive } from '@vue/reactivity'
 import { notify } from '@kyvg/vue3-notification'
 import { onMounted } from '@vue/runtime-core'
 export default {
-    components: { NavigationBar, SideMenuBar },
+    components: { NavigationBar, SideMenuBar, Loading },
     setup() {
 
         const products = reactive({
@@ -76,8 +79,8 @@ export default {
 
         const get_products = async() => {
             try {
-                products.data = []
                 const { data } = await axios.get('/admin/products')
+                products.data = []
                 data.forEach(product => products.data.push(product))
                 products.loading = false
             } catch (error) {
@@ -85,8 +88,8 @@ export default {
                 const errorMessage = error.response? error.response.data :error
                 notify({
                     title: 'Getting  Products Error',
-                    text: errorMessage,
-                    type: 'error'
+                    type: 'error',
+                    text: errorMessage
                 })
             }
         }
@@ -106,8 +109,8 @@ export default {
                     const errorMessage = error.response? error.response.data :error
                     notify({
                         title: 'Searching Products Error',
-                        text: errorMessage,
-                        type: 'error'
+                        type: 'error',
+                        text: errorMessage
                     })
                 }
             }, 2500)

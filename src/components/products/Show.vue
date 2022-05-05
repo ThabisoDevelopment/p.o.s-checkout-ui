@@ -8,7 +8,7 @@
             <side-menu-bar />
 
             <!-- Every thing else goes hear  -->
-            <div class="col p-3">
+            <div class="col p-3" v-if="!product.loading">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card border-0">
@@ -41,6 +41,9 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Loading componenent bar -->
+            <Loading v-if="product.loading"/>
         </div>
     </div>
 
@@ -88,13 +91,14 @@
 <script>
 import NavigationBar from "@/components/home/NavigationBar.vue"
 import SideMenuBar from "@/components/home/SideMenuBar.vue"
+import Loading from "@/components/Loading.vue"
 import { reactive } from '@vue/reactivity'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 import { notify } from '@kyvg/vue3-notification'
 import { onMounted } from '@vue/runtime-core'
 export default {
-    components: { NavigationBar, SideMenuBar },
+    components: { NavigationBar, SideMenuBar, Loading },
     setup() {
 
         const product = reactive({
