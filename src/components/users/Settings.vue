@@ -30,7 +30,7 @@
                                 <p class="card-text my-1">Email: {{ user.email }}</p>
                                 <p class="card-text my-1 text-center text-danger" v-if="!user.email_verified">
                                     <span>Email have not been verifid, check your inbox for verification link</span>
-                                    <button class="btn btn-link text-decoration-none btn-sm">Resent Verification Link</button>
+                                    <button class="btn btn-link text-decoration-none btn-sm" @click="mail_verify_link">Resent Verification Link</button>
                                 </p>
                                 <p class="card-text my-1" v-if="user.active">user {{ user.name }} account is currently <span class="text-success">active</span></p>
                                 <p class="card-text my-1" v-if="!user.active">User {{ user.name }} account is <span class="text-danger">not active</span> or <span class="text-danger">deactivated</span></p>
@@ -61,8 +61,14 @@
                                 <p class="card-text my-1 text-info text-sm" v-if="!user.is_admin">Note: Role cashier can only access checkout</p>
 
                                 <div class="d-flex justify-content-between mt-4">
-                                    <p class="my-auto h5" v-if="user.active">User account is currently active</p>
-                                    <p class="my-auto h5 text-danger" v-if="!user.active">User account is currently De-activated</p>
+                                    <p class="my-auto fw-bold" v-if="user.active">
+                                        <span class="fa fa-user pe-2"></span>
+                                        User account is active 
+                                    </p>
+                                    <p class="my-auto fw-bold text-danger" v-if="!user.active">
+                                        <span class="fa fa-user pe-2"></span>
+                                        User account is De-activated
+                                    </p>
                                     <button class="btn btn-sm px-3" :disabled="user.btn" :class="{'btn-danger': user.active, 'btn-success': !user.active }" @click="update_user('active')">
                                         <span v-if="user.active">De-activate Account</span>
                                         <span v-if="!user.active">Activate Account</span>
@@ -151,9 +157,28 @@ export default {
             }
         }
 
+        const mail_verify_link = async() => {
+            try {
+                const { data } = await axios.post("/admin/mail", { type: 'verify'})
+                notify({
+                    title: 'Email Verification Sent Successful',
+                    type: 'success',
+                    text: data.message
+                })
+            } catch (error) {
+                const errorMessage = error.response? error.response.data :error
+                notify({
+                    title: 'Send Email Verification Fail',
+                    type: 'error',
+                    text: errorMessage
+                })
+            }
+        }
+
         return {
             user,
-            update_user
+            update_user,
+            mail_verify_link
         }
     }
 }
